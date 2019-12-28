@@ -1,15 +1,18 @@
 'use strict'
 
-const { VoiceResponse } = require('twilio').twiml
-const { searchPath } = require('./search')
+const createXml = require('xml')
 
-const greetingPath = '/greeting'
+const { x, say, redirect, withDoctype } = require('../helpers')
+const { searchPath } = require('../paths')
+
 const greetingRoute = (req, res, next) => {
-	const response = new VoiceResponse()
-	response.say('Herzlich Willkommen bei der VBB-Abfahrtshotline!', { voice: 'Polly.Marlene' })
-	response.redirect({ method: 'GET' }, searchPath)
+	const elements = []
+	elements.push(say('Herzlich Willkommen bei der VBB-Abfahrtshotline!'))
+	elements.push(redirect(searchPath))
+
+	const xml = createXml(x('Response', null, elements))
 	res.set('Content-Type', 'text/xml')
-	res.end(response.toString())
+	res.end(withDoctype(xml))
 }
 
-module.exports = { greetingPath, greetingRoute }
+module.exports = greetingRoute

@@ -1,16 +1,25 @@
 'use strict'
 
-const { VoiceResponse } = require('twilio').twiml
+const createXml = require('xml')
 
-const searchPath = '/search'
+const { x, say, withDoctype } = require('../helpers')
+const { searchResultsPath } = require('../paths')
+
 const searchRoute = (req, res, next) => {
-	const response = new VoiceResponse()
-	response.say('Dies ist die Suche.', { voice: 'Polly.Marlene' })
-	response.pause(2)
-	response.say('Schönen Tag noch.', { voice: 'Polly.Marlene' })
-	response.hangup()
+	const elements = []
+	const gatherElements = [
+		say('Bitte suchen Sie nach einer Station mit Hilfe der Buchstaben auf ihrer Telefontastatur. Wählen sie zum Beispiel 9, 6, 6 für Z, O, O. Für Leerzeichen benutzen Sie bitte die 0.')
+	]
+	elements.push(x('Gather', {
+		action: searchResultsPath,
+		method: 'GET',
+		input: 'dtmf',
+		actionOnEmptyResult: false
+	}, gatherElements))
+
+	const xml = createXml(x('Response', null, elements))
 	res.set('Content-Type', 'text/xml')
-	res.end(response.toString())
+	res.end(withDoctype(xml))
 }
 
-module.exports = { searchPath, searchRoute }
+module.exports = searchRoute

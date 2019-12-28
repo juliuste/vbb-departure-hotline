@@ -18,8 +18,12 @@
 	"dependencies": {
 		"compression": "^1.7.4",
 		"corser": "^2.0.1",
+		"db-clean-station-name": "^1.2.0",
 		"express": "^4.17.1",
-		"twilio": "^3.39.1"
+		"lodash": "^4.17.15",
+		"vbb-stations": "^7.1.0",
+		"vbb-stations-t9": "0.0.1",
+		"xml": "^1.0.1"
 	},
 	"devDependencies": {
 		"depcheck": "^0.9.1",

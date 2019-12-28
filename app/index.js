@@ -5,8 +5,12 @@ const http = require('http')
 const corser = require('corser')
 const compression = require('compression')
 
-const { greetingPath, greetingRoute } = require('./routes/greeting')
-const { searchPath, searchRoute } = require('./routes/search')
+const { greetingPath, searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } = require('./paths')
+const greetingRoute = require('./routes/greeting')
+const searchRoute = require('./routes/search')
+const searchResultsRoute = require('./routes/search-results')
+const searchResultSelectedRoute = require('./routes/search-result-selected')
+const departuresRoute = require('./routes/departures')
 
 const api = express()
 const server = http.createServer(api)
@@ -20,6 +24,9 @@ api.use(corser.create({ requestHeaders: allowed }))
 
 api.get(greetingPath, greetingRoute)
 api.get(searchPath, searchRoute)
+api.get(searchResultsPath, searchResultsRoute)
+api.get(searchResultSelectedPath, searchResultSelectedRoute)
+api.get(departuresPath, departuresRoute)
 
 const port = +process.env.PORT || 3000
 server.listen(port, error => {
