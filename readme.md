@@ -2,7 +2,7 @@
 
 Get information about VBB (Berlin/Brandenburg public transport) departures via telephone. Exposes a rest API which can be used to create a [twilio](https://www.twilio.com/docs/voice) voice service (see also [twilio integration](#twilio-integration)). __*Please note that the service responds in german.*__
 
-__You can test the hotline yourself by calling *[+49 1573 5999765](tel:+4915735999765)*. Please note that this is not a production endpoint, it may be rate-limited or even shut down completely at any point in time, so don't rely on it, just use it for testing purposes.__
+__You can test the hotline yourself by calling *[+49 30 255 585 775](tel:+4930255585775)*. Please note that this is not a production endpoint, it may be rate-limited or even shut down completely at any point in time, so don't rely on it, just use it for testing purposes.__
 
 [![license](https://img.shields.io/github/license/juliuste/vbb-departure-hotline.svg?style=flat)](license)
 
