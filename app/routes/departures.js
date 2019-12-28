@@ -7,7 +7,7 @@ const get = require('lodash/get')
 const { DateTime } = require('luxon')
 const timeout = require('p-timeout')
 
-const { x, say, hangup, pause, withDoctype } = require('../helpers')
+const { x, say, hangup, pause, withDoctype, digitsOnly } = require('../helpers')
 const stationsById = require('../stations')
 
 const productName = product => {
@@ -22,7 +22,7 @@ const productName = product => {
 
 const departuresRoute = async (req, res, next) => {
 	const elements = []
-	const selectedStation = stationsById.get(req.query.station || '')
+	const selectedStation = stationsById.get(digitsOnly(req.query.station) || '')
 	if (!selectedStation) {
 		elements.push(say('Leider ist ein unerwarteter Fehler aufgetreten, bitte versuchen Sie es später erneut.'))
 		elements.push(hangup())

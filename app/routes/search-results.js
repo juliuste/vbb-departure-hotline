@@ -3,13 +3,13 @@
 const createXml = require('xml')
 
 const { searchPath, searchResultSelectedPath, departuresPath } = require('../paths')
-const { x, say, redirect, pause, withDoctype } = require('../helpers')
+const { x, say, redirect, pause, withDoctype, digitsOnly } = require('../helpers')
 const searchByDigits = require('../search-by-digits')
 
 const searchResultsRoute = (req, res, next) => {
 	const elements = []
 
-	const digits = String(req.query.Digits || req.query.originalDigits || '')
+	const digits = String(digitsOnly(req.query.Digits) || digitsOnly(req.query.originalDigits) || '')
 	const searchResults = searchByDigits(digits)
 	if (searchResults.length === 0) {
 		elements.push(say('Für ihre Eingabe wurden leider keine Ergebnisse gefunden.'))

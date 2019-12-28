@@ -17,4 +17,6 @@ const pause = length => x('Pause', { length })
 
 const withDoctype = xml => ['<?xml version="1.0" encoding="UTF-8"?>', xml].join('\n')
 
-module.exports = { x, say, redirect, hangup, pause, withDoctype }
+const digitsOnly = x => (String(x) || '').replace(/[^0-9]+/gi, '')
+
+module.exports = { x, say, redirect, hangup, pause, withDoctype, digitsOnly }

@@ -3,7 +3,7 @@
 const createXml = require('xml')
 const range = require('lodash/range')
 
-const { x, say, redirect, withDoctype } = require('../helpers')
+const { x, say, redirect, withDoctype, digitsOnly } = require('../helpers')
 
 const { searchPath, searchResultsPath, departuresPath } = require('../paths')
 const searchByDigits = require('../search-by-digits')
@@ -11,8 +11,8 @@ const searchByDigits = require('../search-by-digits')
 const searchResultSelectedRoute = (req, res, next) => {
 	const elements = []
 
-	const selected = String(req.query.Digits)
-	const originalDigits = req.query.originalDigits
+	const selected = String(digitsOnly(req.query.Digits))
+	const originalDigits = digitsOnly(req.query.originalDigits)
 	const searchResults = searchByDigits(originalDigits)
 
 	if (selected === '#') {
