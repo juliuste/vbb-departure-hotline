@@ -16,11 +16,14 @@
 		"test": "npm run lint && npm run check-deps"
 	},
 	"dependencies": {
+		"bvg-hafas": "^2.0.0",
 		"compression": "^1.7.4",
 		"corser": "^2.0.1",
 		"db-clean-station-name": "^1.2.0",
 		"express": "^4.17.1",
 		"lodash": "^4.17.15",
+		"luxon": "^1.21.3",
+		"p-timeout": "^3.2.0",
 		"vbb-stations": "^7.1.0",
 		"vbb-stations-t9": "0.0.1",
 		"xml": "^1.0.1"
