@@ -1,0 +1,36 @@
+{
+	"name": "vbb-departure-hotline",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Get information about VBB (Berlin/Brandenburg public transport) departures via telephone.",
+	"homepage": "https://github.com/juliuste/vbb-departure-hotline",
+	"bugs": "https://github.com/juliuste/vbb-departure-hotline/issues",
+	"repository": "juliuste/vbb-departure-hotline",
+	"license": "ISC",
+	"author": "Julius Tens <mail@juliustens.eu>",
+	"scripts": {
+		"check-deps": "depcheck",
+		"deploy": "./deploy",
+		"fix": "eslint --fix app",
+		"lint": "eslint app",
+		"test": "npm run lint && npm run check-deps"
+	},
+	"dependencies": {
+		"compression": "^1.7.4",
+		"corser": "^2.0.1",
+		"express": "^4.17.1",
+		"twilio": "^3.39.1"
+	},
+	"devDependencies": {
+		"depcheck": "^0.9.1",
+		"eslint": "^6.8.0",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.19.1",
+		"eslint-plugin-node": "^11.0.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1"
+	},
+	"engines": {
+		"node": ">=10"
+	}
+}
