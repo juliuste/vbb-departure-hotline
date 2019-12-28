@@ -1,6 +1,10 @@
 # vbb-departure-hotline
 
-Get information about VBB (Berlin/Brandenburg public transport) departures via telephone. Exposes a rest API which can be used to create a [twilio](https://www.twilio.com/docs/voice) voice service. __*Please note that the bot responds in german.*__
+Get information about VBB (Berlin/Brandenburg public transport) departures via telephone. Exposes a rest API which can be used to create a [twilio](https://www.twilio.com/docs/voice) voice service (see also [twilio integration](#twilio-integration)). __*Please note that the service responds in german.*__
+
+__You can test the hotline yourself by calling *[+49 1573 5999765](tel:+4915735999765)*. Please note that this is not a production endpoint, it may be rate-limited or even shut down completely at any point in time, so don't rely on it, just use it for testing purposes.__
+
+[![license](https://img.shields.io/github/license/juliuste/vbb-departure-hotline.svg?style=flat)](license)
 
 ## Example conversation
 
@@ -34,11 +38,9 @@ __*1*__
 >
 > …
 
----
+## Twilio integration
 
-__You can test the bot yourself by calling *[+49 1573 5999765](tel:+4915735999765)*. Please note that this is not a production endpoint, it may be rate-limited or even shut down completely at any point in time, so don't rely on it, just use it for testing purposes.__
-
-[![license](https://img.shields.io/github/license/juliuste/vbb-departure-hotline.svg?style=flat)](license)
+You need to configure your twilio phone number's voice section to *Webhook* and add `https://your.domain/greeting` with **HTTP GET** as the webhook for incoming calls.
 
 ## See also
 
