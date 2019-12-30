@@ -4,10 +4,14 @@ const createXml = require('xml')
 const { departures } = require('bvg-hafas')('juliuste/vbb-departures')
 const cleanStationName = require('db-clean-station-name')
 const get = require('lodash/get')
+const pick = require('lodash/pick')
+const last = require('lodash/last')
+const { stringify } = require('querystring')
 const { DateTime } = require('luxon')
 const timeout = require('p-timeout')
 
 const { x, say, hangup, pause, withDoctype, digitsOnly } = require('../helpers')
+const { departuresPath } = require('../paths')
 const stationsById = require('../stations')
 
 const productName = product => {
@@ -21,15 +25,18 @@ const productName = product => {
 }
 
 const departuresRoute = async (req, res, next) => {
+	const query = pick(req.query, ['station', 'time'])
+
 	const elements = []
-	const selectedStation = stationsById.get(digitsOnly(req.query.station) || '')
+	const selectedStation = stationsById.get(digitsOnly(query.station) || '')
 	if (!selectedStation) {
 		elements.push(say('Leider ist ein unerwarteter Fehler aufgetreten, bitte versuchen Sie es später erneut.'))
 		elements.push(hangup())
 	} else {
-		elements.push(say(`Nächste Abfahrten für ${selectedStation.name}:`))
+		if (!query.time) elements.push(say(`Nächste Abfahrten für ${selectedStation.name}:`))
 		try {
 			const departuresAtStation = await timeout(departures(selectedStation.id, {
+				when: query.time || undefined,
 				remarks: false,
 				stopovers: false
 			}), 4500)
@@ -78,6 +85,22 @@ const departuresRoute = async (req, res, next) => {
 					}
 					elements.push(pause(0.3))
 				})
+
+			// @todo check if there are laterThan/earlierThan pointers available
+			// in hafas for departure requests, like the ones for journeys
+			const { when: lastDepartureTime } = last(departuresAtStation)
+			const laterTime = DateTime.fromISO(lastDepartureTime, { setZone: true })
+				.plus({ minutes: 1 })
+				.toISO({ suppressMilliseconds: true })
+
+			elements.push(x('Gather', {
+				action: `${departuresPath}?${stringify({ ...query, time: laterTime })}`, // @todo make this clean
+				method: 'GET',
+				input: 'dtmf',
+				numDigits: 1,
+				finishOnKey: '',
+				actionOnEmptyResult: false
+			}, say('Für weitere Abfahrten drücken Sie bitte eine beliebige Taste.')))
 		} catch (error) {
 			elements.push('Leider ist bei der Abfrage ein Fehler aufgetreten, bitte versuchen Sie es später erneut.')
 			elements.push(pause(0.3))
