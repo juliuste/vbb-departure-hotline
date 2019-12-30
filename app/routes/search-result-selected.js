@@ -3,7 +3,7 @@
 const createXml = require('xml')
 const range = require('lodash/range')
 
-const { x, say, redirect, withDoctype, digitsOnly } = require('../helpers')
+const { x, say, redirect, withDoctype, phoneKeysOnly } = require('../helpers')
 
 const { searchPath, searchResultsPath, departuresPath } = require('../paths')
 const searchByDigits = require('../search-by-digits')
@@ -11,11 +11,11 @@ const searchByDigits = require('../search-by-digits')
 const searchResultSelectedRoute = (req, res, next) => {
 	const elements = []
 
-	const selected = String(digitsOnly(req.query.Digits))
-	const originalDigits = digitsOnly(req.query.originalDigits)
+	const selected = String(phoneKeysOnly(req.query.Digits))
+	const originalDigits = phoneKeysOnly(req.query.originalDigits)
 	const searchResults = searchByDigits(originalDigits)
 
-	if (selected === '#') {
+	if (selected === '0') {
 		elements.push(redirect(searchPath))
 	} else if (!range(searchResults.length).map(x => String(x + 1)).includes(selected)) {
 		if (selected !== '*') elements.push(say('Fehler bei der Eingabe, bitte wählen Sie erneut.'))

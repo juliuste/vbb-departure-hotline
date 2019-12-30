@@ -5,14 +5,14 @@ const pick = require('lodash/pick')
 const { stringify } = require('querystring')
 
 const { searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } = require('../paths')
-const { x, say, redirect, pause, withDoctype, digitsOnly } = require('../helpers')
+const { x, say, redirect, pause, withDoctype, phoneKeysOnly } = require('../helpers')
 const searchByDigits = require('../search-by-digits')
 
 const searchResultsRoute = (req, res, next) => {
 	const query = pick(req.query, ['Digits', 'originalDigits'])
 	const elements = []
 
-	const digits = String(digitsOnly(query.Digits) || digitsOnly(query.originalDigits) || '')
+	const digits = String(phoneKeysOnly(query.Digits) || phoneKeysOnly(query.originalDigits) || '')
 	const searchResults = searchByDigits(digits)
 	if (searchResults.length === 0) {
 		elements.push(say('Für ihre Eingabe wurden leider keine Ergebnisse gefunden.'))
@@ -26,7 +26,7 @@ const searchResultsRoute = (req, res, next) => {
 			gatherElements.push(say(`Für ${result.name}: Die ${index + 1}.`))
 			gatherElements.push(pause(0.3))
 		})
-		gatherElements.push(say('Oder drücken Sie die Rautetaste, um nach einer anderen Station zu suchen.'))
+		gatherElements.push(say('Oder drücken Sie die 0, um nach einer anderen Station zu suchen.'))
 		gatherElements.push(pause(0.3))
 		gatherElements.push(say('Um diese Ansage zu wiederholen, drücken Sie bitte die Sterntaste.'))
 
@@ -35,6 +35,7 @@ const searchResultsRoute = (req, res, next) => {
 			method: 'GET',
 			input: 'dtmf',
 			numDigits: 1,
+			finishOnKey: '',
 			actionOnEmptyResult: false
 		}, gatherElements))
 
