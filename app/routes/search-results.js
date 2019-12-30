@@ -1,15 +1,18 @@
 'use strict'
 
 const createXml = require('xml')
+const pick = require('lodash/pick')
+const { stringify } = require('querystring')
 
-const { searchPath, searchResultSelectedPath, departuresPath } = require('../paths')
+const { searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } = require('../paths')
 const { x, say, redirect, pause, withDoctype, digitsOnly } = require('../helpers')
 const searchByDigits = require('../search-by-digits')
 
 const searchResultsRoute = (req, res, next) => {
+	const query = pick(req.query, ['Digits', 'originalDigits'])
 	const elements = []
 
-	const digits = String(digitsOnly(req.query.Digits) || digitsOnly(req.query.originalDigits) || '')
+	const digits = String(digitsOnly(query.Digits) || digitsOnly(query.originalDigits) || '')
 	const searchResults = searchByDigits(digits)
 	if (searchResults.length === 0) {
 		elements.push(say('Für ihre Eingabe wurden leider keine Ergebnisse gefunden.'))
@@ -34,6 +37,9 @@ const searchResultsRoute = (req, res, next) => {
 			numDigits: 1,
 			actionOnEmptyResult: false
 		}, gatherElements))
+
+		// loop if nothing was selected
+		elements.push(redirect(`${searchResultsPath}?${stringify(query)}`))
 	}
 
 	const xml = createXml(x('Response', null, elements))

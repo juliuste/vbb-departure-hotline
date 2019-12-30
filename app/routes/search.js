@@ -2,8 +2,8 @@
 
 const createXml = require('xml')
 
-const { x, say, withDoctype } = require('../helpers')
-const { searchResultsPath } = require('../paths')
+const { x, say, redirect, withDoctype } = require('../helpers')
+const { searchPath, searchResultsPath } = require('../paths')
 
 const searchRoute = (req, res, next) => {
 	const elements = []
@@ -16,6 +16,9 @@ const searchRoute = (req, res, next) => {
 		input: 'dtmf',
 		actionOnEmptyResult: false
 	}, gatherElements))
+
+	// loop if nothing was selected
+	elements.push(redirect(searchPath))
 
 	const xml = createXml(x('Response', null, elements))
 	res.set('Content-Type', 'text/xml')
