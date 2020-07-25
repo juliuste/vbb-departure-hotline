@@ -13,6 +13,7 @@
 		"deploy": "./deploy",
 		"fix": "eslint --fix app",
 		"lint": "eslint app",
+		"start": "node app/index",
 		"test": "npm run lint && npm run check-deps"
 	},
 	"dependencies": {
