@@ -40,13 +40,20 @@ const departuresRoute = async (req, res, next) => {
 				remarks: false,
 				stopovers: false
 			}), 4500)
-			departuresAtStation
+			const validDepartures = departuresAtStation
 				.map(departure => ({
 					...departure,
 					direction: cleanStationName(departure.direction || '') || null
 				}))
 				.filter(departure => (departure.when || (departure.cancelled && departure.scheduledWhen)) && get(departure, 'line.product') && get(departure, 'line.name') && departure.direction) // @todo direction required?
 				.filter(departure => get(departure, 'line.product') !== 'express') // @todo
+
+			if (validDepartures.length === 0) {
+				elements.push(say(`Aktuell scheint es keine Abfahrten von ${selectedStation.name} zu geben. Versuchen Sie es gegebenenfalls zu einem späteren Zeitpunkt erneut.`))
+				elements.push(pause(0.3))
+			}
+
+			validDepartures
 				.forEach(departure => {
 					// @todo: remarks
 					// cancelled
@@ -88,19 +95,21 @@ const departuresRoute = async (req, res, next) => {
 
 			// @todo check if there are laterThan/earlierThan pointers available
 			// in hafas for departure requests, like the ones for journeys
-			const { when: lastDepartureTime } = last(departuresAtStation)
-			const laterTime = DateTime.fromISO(lastDepartureTime, { setZone: true })
-				.plus({ minutes: 1 })
-				.toISO({ suppressMilliseconds: true })
+			if (departuresAtStation.length > 0) {
+				const { when: lastDepartureTime } = last(departuresAtStation)
+				const laterTime = DateTime.fromISO(lastDepartureTime, { setZone: true })
+					.plus({ minutes: 1 })
+					.toISO({ suppressMilliseconds: true })
 
-			elements.push(x('Gather', {
-				action: `${departuresPath}?${stringify({ ...query, time: laterTime })}`, // @todo make this clean
-				method: 'GET',
-				input: 'dtmf',
-				numDigits: 1,
-				finishOnKey: '',
-				actionOnEmptyResult: false
-			}, say('Für weitere Abfahrten drücken Sie bitte eine beliebige Taste.')))
+				elements.push(x('Gather', {
+					action: `${departuresPath}?${stringify({ ...query, time: laterTime })}`, // @todo make this clean
+					method: 'GET',
+					input: 'dtmf',
+					numDigits: 1,
+					finishOnKey: '',
+					actionOnEmptyResult: false
+				}, say('Für weitere Abfahrten drücken Sie bitte eine beliebige Taste.')))
+			}
 		} catch (error) {
 			elements.push('Leider ist bei der Abfrage ein Fehler aufgetreten, bitte versuchen Sie es später erneut.')
 			elements.push(pause(0.3))
