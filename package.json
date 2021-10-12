@@ -17,7 +17,7 @@
 		"test": "npm run lint && npm run check-deps"
 	},
 	"dependencies": {
-		"bvg-hafas": "^2.0.1",
+		"bvg-hafas": "^3.0.1",
 		"compression": "^1.7.4",
 		"corser": "^2.0.1",
 		"db-clean-station-name": "^1.2.0",

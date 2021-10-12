@@ -14,7 +14,7 @@ import { x, say, hangup, pause, withDoctype, digitsOnly } from '../helpers.js'
 import { departuresPath } from '../paths.js'
 import stationsById from '../stations.js'
 
-const { departures } = createHafas('juliuste/vbb-departures')
+const { departures } = createHafas('juliuste/vbb-departure-hotline')
 
 const productName = product => {
 	if (product === 'suburban') return 'S-Bahn'
@@ -47,7 +47,7 @@ export default async (req, res, next) => {
 					...departure,
 					direction: cleanStationName(departure.direction || '') || null,
 				}))
-				.filter(departure => (departure.when || (departure.cancelled && departure.scheduledWhen)) && get(departure, 'line.product') && get(departure, 'line.name') && departure.direction) // @todo direction required?
+				.filter(departure => (departure.prognosedWhen || departure.when || departure.plannedWhen) && get(departure, 'line.product') && get(departure, 'line.name') && departure.direction) // @todo direction required?
 				.filter(departure => get(departure, 'line.product') !== 'express') // @todo
 
 			if (validDepartures.length === 0) {
@@ -67,7 +67,7 @@ export default async (req, res, next) => {
 							' Richtung ',
 							departure.direction,
 							'. Ursprüngliche Abfahrtszeit: ',
-							DateTime.fromISO(departure.when || departure.scheduledWhen, { setZone: true }).toFormat('HH:mm'),
+							DateTime.fromISO(departure.plannedWhen, { setZone: true }).toFormat('HH:mm'),
 							' Uhr, fällt heute leider aus.',
 						].join('')
 						elements.push(say(message))
@@ -80,7 +80,7 @@ export default async (req, res, next) => {
 							' Richtung ',
 							departure.direction,
 							'. Abfahrt heute: ',
-							DateTime.fromISO(departure.when, { setZone: true }).toFormat('HH:mm'),
+							DateTime.fromISO(departure.prognosedWhen || departure.when || departure.plannedWhen, { setZone: true }).toFormat('HH:mm'),
 							' Uhr.',
 						].join('')
 						const delayInMinutes = Number.isInteger(departure.delay) ? Math.round(Math.abs(departure.delay) / 60) : null
