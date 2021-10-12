@@ -1,7 +1,7 @@
 'use strict'
 
-const allStations = require('vbb-stations/simple')
-const cleanStationName = require('db-clean-station-name')
+import allStations from 'vbb-stations/simple.js'
+import cleanStationName from 'db-clean-station-name'
 
 // create stations index
 const stationsById = new Map()
@@ -15,4 +15,4 @@ allStations.forEach(station => {
 	}
 })
 
-module.exports = stationsById
+export default stationsById

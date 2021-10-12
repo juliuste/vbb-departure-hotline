@@ -1,11 +1,11 @@
 'use strict'
 
-const createXml = require('xml')
+import createXml from 'xml'
 
-const { x, say, redirect, withDoctype } = require('../helpers')
-const { searchPath, searchResultsPath } = require('../paths')
+import { x, say, redirect, withDoctype } from '../helpers.js'
+import { searchPath, searchResultsPath } from '../paths.js'
 
-const searchRoute = (req, res, next) => {
+export default (req, res, next) => {
 	const elements = []
 	const gatherElements = [
 		say('Bitte suchen Sie nach einer Station mit Hilfe der Buchstaben auf ihrer Telefontastatur. Wählen sie zum Beispiel 9, 6, 6 für Z, O, O. Für Leerzeichen benutzen Sie bitte die 0.'),
@@ -24,5 +24,3 @@ const searchRoute = (req, res, next) => {
 	res.set('Content-Type', 'text/xml')
 	res.end(withDoctype(xml))
 }
-
-module.exports = searchRoute

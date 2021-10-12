@@ -1,16 +1,22 @@
 'use strict'
 
-const express = require('express')
-const http = require('http')
-const corser = require('corser')
-const compression = require('compression')
+import express from 'express'
+import http from 'http'
+import corser from 'corser'
+import compression from 'compression'
 
-const { greetingPath, searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } = require('./paths')
-const greetingRoute = require('./routes/greeting')
-const searchRoute = require('./routes/search')
-const searchResultsRoute = require('./routes/search-results')
-const searchResultSelectedRoute = require('./routes/search-result-selected')
-const departuresRoute = require('./routes/departures')
+import { greetingPath, searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } from './paths.js'
+import greetingRoute from './routes/greeting.js'
+import searchRoute from './routes/search.js'
+import searchResultsRoute from './routes/search-results.js'
+import searchResultSelectedRoute from './routes/search-result-selected.js'
+import departuresRoute from './routes/departures.js'
+
+const getEnv = name => {
+	const value = (process.env[name] || '').trim()
+	if (!value) throw new Error(`missing env: ${name}`)
+	return value
+}
 
 const api = express()
 const server = http.createServer(api)
@@ -28,7 +34,7 @@ api.get(searchResultsPath, searchResultsRoute)
 api.get(searchResultSelectedPath, searchResultSelectedRoute)
 api.get(departuresPath, departuresRoute)
 
-const port = +process.env.PORT || 3000
+const port = getEnv('PORT')
 server.listen(port, error => {
 	if (error) {
 		console.error(error)

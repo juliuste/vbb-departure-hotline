@@ -1,18 +1,20 @@
 'use strict'
 
-const createXml = require('xml')
-const { departures } = require('bvg-hafas')('juliuste/vbb-departures')
-const cleanStationName = require('db-clean-station-name')
-const get = require('lodash/get')
-const pick = require('lodash/pick')
-const last = require('lodash/last')
-const { stringify } = require('querystring')
-const { DateTime } = require('luxon')
-const timeout = require('p-timeout')
+import createXml from 'xml'
+import createHafas from 'bvg-hafas'
+import cleanStationName from 'db-clean-station-name'
+import get from 'lodash/get.js'
+import pick from 'lodash/pick.js'
+import last from 'lodash/last.js'
+import { stringify } from 'querystring'
+import { DateTime } from 'luxon'
+import timeout from 'p-timeout'
 
-const { x, say, hangup, pause, withDoctype, digitsOnly } = require('../helpers')
-const { departuresPath } = require('../paths')
-const stationsById = require('../stations')
+import { x, say, hangup, pause, withDoctype, digitsOnly } from '../helpers.js'
+import { departuresPath } from '../paths.js'
+import stationsById from '../stations.js'
+
+const { departures } = createHafas('juliuste/vbb-departures')
 
 const productName = product => {
 	if (product === 'suburban') return 'S-Bahn'
@@ -24,7 +26,7 @@ const productName = product => {
 	throw new Error(`unexpected product: ${product}`)
 }
 
-const departuresRoute = async (req, res, next) => {
+export default async (req, res, next) => {
 	const query = pick(req.query, ['station', 'time'])
 
 	const elements = []
@@ -124,5 +126,3 @@ const departuresRoute = async (req, res, next) => {
 	res.set('Content-Type', 'text/xml')
 	return res.end(withDoctype(xml))
 }
-
-module.exports = departuresRoute

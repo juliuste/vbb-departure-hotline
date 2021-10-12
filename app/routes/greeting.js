@@ -1,11 +1,11 @@
 'use strict'
 
-const createXml = require('xml')
+import createXml from 'xml'
 
-const { x, say, redirect, withDoctype } = require('../helpers')
-const { searchPath } = require('../paths')
+import { x, say, redirect, withDoctype } from '../helpers.js'
+import { searchPath } from '../paths.js'
 
-const greetingRoute = (req, res, next) => {
+export default (req, res, next) => {
 	console.info(`retrieving call from ${req.query.Caller || 'unknown'}`)
 
 	const elements = []
@@ -16,5 +16,3 @@ const greetingRoute = (req, res, next) => {
 	res.set('Content-Type', 'text/xml')
 	res.end(withDoctype(xml))
 }
-
-module.exports = greetingRoute

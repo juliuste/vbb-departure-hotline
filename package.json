@@ -8,11 +8,12 @@
 	"repository": "juliuste/vbb-departure-hotline",
 	"license": "ISC",
 	"author": "Julius Tens <mail@juliustens.eu>",
+	"type": "module",
 	"scripts": {
 		"check-deps": "depcheck",
 		"fix": "npm run lint -- --fix",
 		"lint": "eslint app",
-		"start": "node app/index",
+		"start": "node app/index.js",
 		"test": "npm run lint && npm run check-deps"
 	},
 	"dependencies": {
@@ -22,8 +23,8 @@
 		"db-clean-station-name": "^1.2.0",
 		"express": "^4.17.1",
 		"lodash": "^4.17.21",
-		"luxon": "^1.28.0",
-		"p-timeout": "^3.2.0",
+		"luxon": "^2.0.2",
+		"p-timeout": "^5.0.1",
 		"vbb-stations": "^7.3.1",
 		"vbb-stations-t9": "0.0.1",
 		"xml": "^1.0.1"

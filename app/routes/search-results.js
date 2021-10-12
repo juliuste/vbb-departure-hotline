@@ -1,14 +1,14 @@
 'use strict'
 
-const createXml = require('xml')
-const pick = require('lodash/pick')
-const { stringify } = require('querystring')
+import createXml from 'xml'
+import pick from 'lodash/pick.js'
+import { stringify } from 'querystring'
 
-const { searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } = require('../paths')
-const { x, say, redirect, pause, withDoctype, phoneKeysOnly } = require('../helpers')
-const searchByDigits = require('../search-by-digits')
+import { searchPath, searchResultsPath, searchResultSelectedPath, departuresPath } from '../paths.js'
+import { x, say, redirect, pause, withDoctype, phoneKeysOnly } from '../helpers.js'
+import searchByDigits from '../search-by-digits.js'
 
-const searchResultsRoute = (req, res, next) => {
+export default (req, res, next) => {
 	const query = pick(req.query, ['Digits', 'originalDigits'])
 	const elements = []
 
@@ -47,5 +47,3 @@ const searchResultsRoute = (req, res, next) => {
 	res.set('Content-Type', 'text/xml')
 	res.end(withDoctype(xml))
 }
-
-module.exports = searchResultsRoute

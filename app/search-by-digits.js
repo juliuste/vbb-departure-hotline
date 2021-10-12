@@ -1,13 +1,11 @@
 'use strict'
 
-const search = require('vbb-stations-t9')
-const stationsById = require('./stations')
+import search from 'vbb-stations-t9'
+import stationsById from './stations.js'
 
-const searchByDigits = (digits) => {
+export default (digits) => {
 	const matching = search(digits, 5)
 	return matching
 		.map(m => stationsById.get(m.id) || null)
 		.filter(Boolean)
 }
-
-module.exports = searchByDigits

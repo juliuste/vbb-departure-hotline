@@ -1,9 +1,7 @@
 'use strict'
 
-module.exports = {
-	greetingPath: '/greeting',
-	searchPath: '/search',
-	searchResultsPath: '/search-results',
-	searchResultSelectedPath: '/search-result-selected',
-	departuresPath: '/departures',
-}
+export const greetingPath = '/greeting'
+export const searchPath = '/search'
+export const searchResultsPath = '/search-results'
+export const searchResultSelectedPath = '/search-result-selected'
+export const departuresPath = '/departures'

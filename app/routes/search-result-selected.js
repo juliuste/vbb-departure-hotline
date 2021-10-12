@@ -1,14 +1,14 @@
 'use strict'
 
-const createXml = require('xml')
-const range = require('lodash/range')
+import createXml from 'xml'
+import range from 'lodash/range.js'
 
-const { x, say, redirect, withDoctype, phoneKeysOnly } = require('../helpers')
+import { x, say, redirect, withDoctype, phoneKeysOnly } from '../helpers.js'
 
-const { searchPath, searchResultsPath, departuresPath } = require('../paths')
-const searchByDigits = require('../search-by-digits')
+import { searchPath, searchResultsPath, departuresPath } from '../paths.js'
+import searchByDigits from '../search-by-digits.js'
 
-const searchResultSelectedRoute = (req, res, next) => {
+export default (req, res, next) => {
 	const elements = []
 
 	const selected = String(phoneKeysOnly(req.query.Digits))
@@ -29,5 +29,3 @@ const searchResultSelectedRoute = (req, res, next) => {
 	res.set('Content-Type', 'text/xml')
 	res.end(withDoctype(xml))
 }
-
-module.exports = searchResultSelectedRoute
