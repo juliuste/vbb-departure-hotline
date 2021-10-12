@@ -10,7 +10,7 @@ allStations.forEach(station => {
 	if (name) {
 		stationsById.set(station.id, {
 			...station,
-			name
+			name,
 		})
 	}
 })

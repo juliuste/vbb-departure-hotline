@@ -38,12 +38,12 @@ const departuresRoute = async (req, res, next) => {
 			const departuresAtStation = await timeout(departures(selectedStation.id, {
 				when: query.time || undefined,
 				remarks: false,
-				stopovers: false
+				stopovers: false,
 			}), 4500)
 			const validDepartures = departuresAtStation
 				.map(departure => ({
 					...departure,
-					direction: cleanStationName(departure.direction || '') || null
+					direction: cleanStationName(departure.direction || '') || null,
 				}))
 				.filter(departure => (departure.when || (departure.cancelled && departure.scheduledWhen)) && get(departure, 'line.product') && get(departure, 'line.name') && departure.direction) // @todo direction required?
 				.filter(departure => get(departure, 'line.product') !== 'express') // @todo
@@ -66,7 +66,7 @@ const departuresRoute = async (req, res, next) => {
 							departure.direction,
 							'. Ursprüngliche Abfahrtszeit: ',
 							DateTime.fromISO(departure.when || departure.scheduledWhen, { setZone: true }).toFormat('HH:mm'),
-							' Uhr, fällt heute leider aus.'
+							' Uhr, fällt heute leider aus.',
 						].join('')
 						elements.push(say(message))
 					} else {
@@ -79,14 +79,16 @@ const departuresRoute = async (req, res, next) => {
 							departure.direction,
 							'. Abfahrt heute: ',
 							DateTime.fromISO(departure.when, { setZone: true }).toFormat('HH:mm'),
-							' Uhr.'
+							' Uhr.',
 						].join('')
 						const delayInMinutes = Number.isInteger(departure.delay) ? Math.round(Math.abs(departure.delay) / 60) : null
-						const delayMessage = Number.isInteger(delayInMinutes) ? [
-							(delayInMinutes === 0) ? 'Kommt pünktlich.' : null,
-							(departure.delay > 0) ? `${delayInMinutes} Minute${delayInMinutes !== 1 ? 'n' : ''} verspätet.` : null,
-							(departure.delay < 0) ? `${delayInMinutes} Minute${delayInMinutes !== 1 ? 'n' : ''} zu früh.` : null
-						].filter(Boolean).join('') : ''
+						const delayMessage = Number.isInteger(delayInMinutes)
+							? [
+								(delayInMinutes === 0) ? 'Kommt pünktlich.' : null,
+								(departure.delay > 0) ? `${delayInMinutes} Minute${delayInMinutes !== 1 ? 'n' : ''} verspätet.` : null,
+								(departure.delay < 0) ? `${delayInMinutes} Minute${delayInMinutes !== 1 ? 'n' : ''} zu früh.` : null,
+							].filter(Boolean).join('')
+							: ''
 						const message = [baseMessage, delayMessage].filter(Boolean).join(' ')
 						elements.push(say(message))
 					}
@@ -107,7 +109,7 @@ const departuresRoute = async (req, res, next) => {
 					input: 'dtmf',
 					numDigits: 1,
 					finishOnKey: '',
-					actionOnEmptyResult: false
+					actionOnEmptyResult: false,
 				}, say('Für weitere Abfahrten drücken Sie bitte eine beliebige Taste.')))
 			}
 		} catch (error) {

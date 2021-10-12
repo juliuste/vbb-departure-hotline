@@ -5,5 +5,5 @@ module.exports = {
 	searchPath: '/search',
 	searchResultsPath: '/search-results',
 	searchResultSelectedPath: '/search-result-selected',
-	departuresPath: '/departures'
+	departuresPath: '/departures',
 }

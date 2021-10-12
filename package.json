@@ -10,8 +10,7 @@
 	"author": "Julius Tens <mail@juliustens.eu>",
 	"scripts": {
 		"check-deps": "depcheck",
-		"deploy": "./deploy",
-		"fix": "eslint --fix app",
+		"fix": "npm run lint -- --fix",
 		"lint": "eslint app",
 		"start": "node app/index",
 		"test": "npm run lint && npm run check-deps"
@@ -32,13 +31,12 @@
 	"devDependencies": {
 		"depcheck": "^1.4.2",
 		"eslint": "^7.32.0",
-		"eslint-config-standard": "^14.1.1",
-		"eslint-plugin-import": "^2.25.1",
+		"eslint-config-standard": "^16.0.3",
+		"eslint-plugin-import": "^2.24.2",
 		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^4.3.1",
-		"eslint-plugin-standard": "^4.1.0"
+		"eslint-plugin-promise": "^5.1.0"
 	},
 	"engines": {
-		"node": ">=10"
+		"node": ">=14"
 	}
 }

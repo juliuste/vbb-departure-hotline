@@ -8,13 +8,13 @@ const { searchPath, searchResultsPath } = require('../paths')
 const searchRoute = (req, res, next) => {
 	const elements = []
 	const gatherElements = [
-		say('Bitte suchen Sie nach einer Station mit Hilfe der Buchstaben auf ihrer Telefontastatur. Wählen sie zum Beispiel 9, 6, 6 für Z, O, O. Für Leerzeichen benutzen Sie bitte die 0.')
+		say('Bitte suchen Sie nach einer Station mit Hilfe der Buchstaben auf ihrer Telefontastatur. Wählen sie zum Beispiel 9, 6, 6 für Z, O, O. Für Leerzeichen benutzen Sie bitte die 0.'),
 	]
 	elements.push(x('Gather', {
 		action: searchResultsPath,
 		method: 'GET',
 		input: 'dtmf',
-		actionOnEmptyResult: false
+		actionOnEmptyResult: false,
 	}, gatherElements))
 
 	// loop if nothing was selected

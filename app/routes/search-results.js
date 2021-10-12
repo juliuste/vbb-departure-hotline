@@ -36,7 +36,7 @@ const searchResultsRoute = (req, res, next) => {
 			input: 'dtmf',
 			numDigits: 1,
 			finishOnKey: '',
-			actionOnEmptyResult: false
+			actionOnEmptyResult: false,
 		}, gatherElements))
 
 		// loop if nothing was selected

@@ -6,7 +6,7 @@ const { x, say, redirect, withDoctype } = require('../helpers')
 const { searchPath } = require('../paths')
 
 const greetingRoute = (req, res, next) => {
-	console.info(`retrieving call from ${req.query.Caller || 'unknown'}`);
+	console.info(`retrieving call from ${req.query.Caller || 'unknown'}`)
 
 	const elements = []
 	elements.push(say('Herzlich Willkommen bei der VBB-Abfahrtshotline!'))
