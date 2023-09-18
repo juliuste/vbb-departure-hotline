@@ -38,6 +38,6 @@
 		"eslint-plugin-promise": "^5.1.0"
 	},
 	"engines": {
-		"node": ">=14"
+		"node": ">=18"
 	}
 }
