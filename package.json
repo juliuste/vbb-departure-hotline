@@ -17,25 +17,25 @@
 		"test": "npm run lint && npm run check-deps"
 	},
 	"dependencies": {
-		"bvg-hafas": "^3.0.1",
+		"bvg-hafas": "^3.1.0",
 		"compression": "^1.7.4",
 		"corser": "^2.0.1",
 		"db-clean-station-name": "^1.2.0",
-		"express": "^4.17.1",
+		"eslint-plugin-n": "^16.1.0",
+		"express": "^4.18.2",
 		"lodash": "^4.17.21",
-		"luxon": "^2.0.2",
-		"p-timeout": "^5.0.1",
-		"vbb-stations": "^7.3.1",
+		"luxon": "^2.5.2",
+		"p-timeout": "^5.1.0",
+		"vbb-stations": "^7.3.2",
 		"vbb-stations-t9": "0.0.1",
 		"xml": "^1.0.1"
 	},
 	"devDependencies": {
-		"depcheck": "^1.4.2",
-		"eslint": "^7.32.0",
-		"eslint-config-standard": "^16.0.3",
-		"eslint-plugin-import": "^2.24.2",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^5.1.0"
+		"depcheck": "^1.4.6",
+		"eslint": "^8.49.0",
+		"eslint-config-standard": "^17.1.0",
+		"eslint-plugin-import": "^2.28.1",
+		"eslint-plugin-promise": "^6.1.1"
 	},
 	"engines": {
 		"node": ">=18"
